@@ -1,14 +1,19 @@
 #include "Game.h"
 #include "Sprite.h"
-Sprite::Sprite() {
+#include "GameObject.h"
+
+Sprite::Sprite(GameObject &associated) : Component(associated){
 	texture = nullptr;
 }
 
-Sprite::Sprite(std::string arq) {
+Sprite::Sprite(GameObject &associated,std::string arq) : Component(associated) {
 	texture = nullptr;
+	Open(arq);
 }
 Sprite::~Sprite() {
-	SDL_DestroyTexture(texture);
+	if (texture != nullptr) {
+		SDL_DestroyTexture(texture);
+	}
 }
 void Sprite::Open(std::string arq) {
 	if (texture != nullptr) {
@@ -21,6 +26,8 @@ void Sprite::Open(std::string arq) {
 		exit(1);
 	}
 	SDL_QueryTexture(texture, nullptr, nullptr, &width, &height);
+	associated.box.height = (float)height;
+	associated.box.width = (float)width;
 	SetClip(0, 0, width, height);
 }
 
@@ -31,10 +38,10 @@ void Sprite::SetClip(int x, int y, int w, int h) {
 	clipRect.h = h;
 }
 
-void Sprite::Render(int x, int y) {
+void Sprite::Render() {
 	SDL_Rect dstrect = SDL_Rect();
-	dstrect.x = x;
-	dstrect.y = y;
+	dstrect.x = (int)associated.box.x;
+	dstrect.y = (int)associated.box.y;
 	dstrect.w = clipRect.w;
 	dstrect.h = clipRect.h;
 	SDL_RenderCopy(Game::GetInstance().GetRenderer(), texture, &clipRect, &dstrect);
@@ -48,4 +55,13 @@ int Sprite::GetHeight() {
 bool Sprite::IsOpen() {
 
 	return (texture != nullptr);
+}
+void Sprite::Update(float dt) {
+
+
+}
+bool Sprite::Is(std::string type) {
+
+	return (type == "Sprite");
+
 }

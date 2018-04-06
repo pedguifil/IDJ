@@ -5,11 +5,11 @@ Music::Music() {
 }
 
 Music::Music(std::string arq) {
-	music = nullptr;
+	Open(arq);
 }
-void Music::Play(int times=-1) {
+void Music::Play(int times ) {
 	if (music != nullptr) {
-		int g = Mix_FadeInMusic(music, times,100);
+		int g = Mix_FadeInMusic(music, times, 100);
 		if (g != 0) {
 			printf("Mix_PlayMusic: %s\n", Mix_GetError());
 		}
@@ -20,7 +20,7 @@ void Music::Play(int times=-1) {
 		exit(1);
 	}
 }
-void Music::Stop(int msToStop=1500) {
+void Music::Stop(int msToStop) {
 	Mix_FadeOutMusic(msToStop);
 }
 void Music::Open(std::string arq) {
@@ -35,6 +35,6 @@ bool Music::IsOpen() {
 	return music != nullptr;
 }
 Music::~Music() {
-	Stop();
+	Stop(0);
 	Mix_FreeMusic(music);
 }

@@ -28,10 +28,10 @@ Game::Game(std::string title, int width, int height) {
 	}
 	if (Mix_Init(MIX_INIT_FLAC | MIX_INIT_MP3 | MIX_INIT_OGG) == 0) {
 		printf("Erro no Mix_Init:  %s.\n", Mix_GetError());
-		getchar();
-		exit(1);
+		//getchar();
+		//exit(1);
 	}
-	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024)!=0) {
+	if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024) != 0) {
 		printf("Erro no Mix_OpenAudio:  %s.\n", Mix_GetError());
 		getchar();
 		exit(1);
@@ -39,7 +39,7 @@ Game::Game(std::string title, int width, int height) {
 	Mix_AllocateChannels(32);
 	window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, width, height, 0);
 	renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if (window == nullptr){
+	if (window == nullptr) {
 		printf("Erro ao criar a window:  %s.\n", SDL_GetError());
 		getchar();
 		exit(1);
@@ -84,7 +84,6 @@ SDL_Renderer* Game::GetRenderer() {
 }
 
 void Game::Run() {
-	estado->LoadAssets();
 	while (!estado->QuitRequested()) {
 		estado->Update(0);
 		estado->Render();
