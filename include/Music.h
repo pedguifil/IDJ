@@ -6,7 +6,7 @@
 #include <string>
 class Music {
 private:
-	Mix_Music* music;
+	Mix_Music * music;
 
 public:
 	Music();
